@@ -1,9 +1,14 @@
+import 'dart:io';
+
 import 'package:cuidapet_curso/app/shared/components/facebook_button.dart';
 import 'package:cuidapet_curso/app/shared/theme_utils.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'login_controller.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+
 
 class LoginPage extends StatefulWidget {
   @override
@@ -22,7 +27,7 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
           children: [
             Container(
               width: ScreenUtil.screenWidthDp,
-              height: ScreenUtil.screenHeightDp * .95,
+              height: ScreenUtil.screenHeightDp < 700? 800: ScreenUtil.screenHeightDp * .95,
               decoration: BoxDecoration(
                 image: DecorationImage(
                     image: AssetImage('lib/assets/images/login_background.png'),
@@ -30,7 +35,7 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(top: ScreenUtil.statusBarHeight + 30),
+              margin: EdgeInsets.only(top: Platform.isIOS? ScreenUtil.statusBarHeight + 30 : ScreenUtil.statusBarHeight),
               //* Double infinity pode ser usado pois o pai está limitando o tamanho da largura
               width: double.infinity,
               child: Column(
@@ -80,7 +85,14 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
               padding: EdgeInsets.all(10),
               height: 60,
               child: RaisedButton(
-                onPressed: () {},
+                onPressed: () async {
+                  await FirebaseAuth.instance.createUserWithEmailAndPassword(email: 'menezessluciana4@gmail.com', password: '123123');
+                  // FacebookLogin().logIn(['public_profile', 'email']);
+                  final facebookLogin = FacebookLogin();
+                  final result = await facebookLogin.logIn(['email']);
+                  print(result.status);
+                  print(result.errorMessage);
+                },
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
