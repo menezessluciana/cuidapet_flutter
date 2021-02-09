@@ -1,9 +1,12 @@
 import 'dart:io';
 
+import 'package:cuidapet_curso/app/core/dio/custom_dio.dart';
 import 'package:cuidapet_curso/app/shared/components/facebook_button.dart';
 import 'package:cuidapet_curso/app/shared/theme_utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'login_controller.dart';
@@ -86,12 +89,17 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
               height: 60,
               child: RaisedButton(
                 onPressed: () async {
-                  await FirebaseAuth.instance.createUserWithEmailAndPassword(email: 'menezessluciana4@gmail.com', password: '123123');
+                  // await FirebaseAuth.instance.createUserWithEmailAndPassword(email: 'menezessluciana5@gmail.com', password: '123123');
                   // FacebookLogin().logIn(['public_profile', 'email']);
-                  final facebookLogin = FacebookLogin();
-                  final result = await facebookLogin.logIn(['email']);
-                  print(result.status);
-                  print(result.errorMessage);
+                  // final facebookLogin = FacebookLogin();
+                  // final result = await facebookLogin.logIn(['email']);
+                  // print(result.status);
+                  // print(result.errorMessage);
+                  // CustomDio.authInstance.get('https://viacep.com.br/ws/01001000/json/ds').then((res)=>print(res.data));
+
+                  // FirebaseMessaging _fcm = FirebaseMessaging();
+                  // _fcm.requestNotificationPermissions();
+                  // print(await _fcm.getToken());
                 },
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
