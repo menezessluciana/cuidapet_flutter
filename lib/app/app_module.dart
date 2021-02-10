@@ -1,3 +1,6 @@
+import 'package:cuidapet_curso/app/repository/usuario_repository.dart';
+import 'package:cuidapet_curso/app/services/usuario_service.dart';
+
 import 'app_controller.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +16,8 @@ class AppModule extends MainModule {
   List<Bind> get binds => [
         Bind((i) => AppController()),
         Bind((i) => AuthStore()),
+        Bind((i) => UsuarioRepository()),
+        Bind((i) => UsuarioService(i.get()))
       ];
 
   @override

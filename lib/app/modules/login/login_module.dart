@@ -6,7 +6,7 @@ import 'login_page.dart';
 class LoginModule extends ChildModule {
   @override
   List<Bind> get binds => [
-         Bind((i) => LoginController()),
+        Bind((i) => LoginController(i.get())),
       ];
 
   @override
