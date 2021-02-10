@@ -7,11 +7,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'login_controller.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
-
 
 class LoginPage extends StatefulWidget {
   @override
@@ -30,7 +30,9 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
           children: [
             Container(
               width: ScreenUtil.screenWidthDp,
-              height: ScreenUtil.screenHeightDp < 700? 800: ScreenUtil.screenHeightDp * .95,
+              height: ScreenUtil.screenHeightDp < 700
+                  ? 800
+                  : ScreenUtil.screenHeightDp * .95,
               decoration: BoxDecoration(
                 image: DecorationImage(
                     image: AssetImage('lib/assets/images/login_background.png'),
@@ -38,14 +40,18 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(top: Platform.isIOS? ScreenUtil.statusBarHeight + 30 : ScreenUtil.statusBarHeight),
+              margin: EdgeInsets.only(
+                  top: Platform.isIOS
+                      ? ScreenUtil.statusBarHeight + 30
+                      : ScreenUtil.statusBarHeight),
               //* Double infinity pode ser usado pois o pai está limitando o tamanho da largura
               width: double.infinity,
               child: Column(
                 children: [
                   Image.asset('lib/assets/images/logo.png',
-                  //*SETWIDTH A LARGURA FICA PROPORCIONAL COM O TAMANHO DO DEVICE
-                      width: ScreenUtil().setWidth(400), fit: BoxFit.fill),
+                      //*SETWIDTH A LARGURA FICA PROPORCIONAL COM O TAMANHO DO DEVICE
+                      width: ScreenUtil().setWidth(400),
+                      fit: BoxFit.fill),
                   _buildForm()
                 ],
               ),
@@ -60,47 +66,57 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
     return Padding(
       padding: const EdgeInsets.all(15.0),
       child: Form(
+        key: controller.formKey,
         child: Column(
           children: [
             TextFormField(
-              decoration: InputDecoration(
-                labelText: 'Login',
-                labelStyle: TextStyle(fontSize: 15),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(50),
-                  gapPadding: 0,
+                controller: controller.loginController,
+                decoration: InputDecoration(
+                  labelText: 'Login',
+                  labelStyle: TextStyle(fontSize: 15),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(50),
+                    gapPadding: 0,
+                  ),
                 ),
-              ),
-            ),
+                validator: (String value) {
+                  if (value.isEmpty) {
+                    return 'Login obrigatório';
+                  }
+                  return null;
+                }),
             SizedBox(height: 20),
-            TextFormField(
-              decoration: InputDecoration(
-                labelText: 'Senha',
-                labelStyle: TextStyle(fontSize: 15),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(50),
-                  gapPadding: 0,
-                ),
-              ),
-            ),
+            Observer(builder: (_) {
+              return TextFormField(
+                  controller: controller.senhaController,
+                  obscureText: controller.obscureText,
+                  decoration: InputDecoration(
+                      labelText: 'Senha',
+                      labelStyle: TextStyle(fontSize: 15),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(50),
+                        gapPadding: 0,
+                      ),
+                      suffixIcon: IconButton(
+                          onPressed: () => controller.mostrarSenhaUsuario(),
+                          icon: controller.obscureText
+                              ? Icon(Icons.lock)
+                              : Icon(Icons.lock_open))),
+                  validator: (String value) {
+                    if (value.isEmpty) {
+                      return 'Senha obrigatória';
+                    } else if (value.length < 6) {
+                      return 'Senha precisa ter pelo menos 6 caracteres';
+                    }
+                    return null;
+                  });
+            }),
             Container(
               width: ScreenUtil.screenWidthDp,
               padding: EdgeInsets.all(10),
               height: 60,
               child: RaisedButton(
-                onPressed: () async {
-                  // await FirebaseAuth.instance.createUserWithEmailAndPassword(email: 'menezessluciana5@gmail.com', password: '123123');
-                  // FacebookLogin().logIn(['public_profile', 'email']);
-                  // final facebookLogin = FacebookLogin();
-                  // final result = await facebookLogin.logIn(['email']);
-                  // print(result.status);
-                  // print(result.errorMessage);
-                  // CustomDio.authInstance.get('https://viacep.com.br/ws/01001000/json/ds').then((res)=>print(res.data));
-
-                  // FirebaseMessaging _fcm = FirebaseMessaging();
-                  // _fcm.requestNotificationPermissions();
-                  // print(await _fcm.getToken());
-                },
+                onPressed: () => controller.login(),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
@@ -138,7 +154,7 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
             ),
             FacebookButton(),
             FlatButton(
-              onPressed: (){},
+              onPressed: () {},
               child: Text('Cadastre-se'),
             ),
           ],
