@@ -152,7 +152,7 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
                 ],
               ),
             ),
-            FacebookButton(),
+            FacebookButton(onTap: () => controller.facebookLogin()),
             FlatButton(
               onPressed: () {},
               child: Text('Cadastre-se'),
