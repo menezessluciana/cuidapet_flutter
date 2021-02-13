@@ -59,4 +59,11 @@ class UsuarioService {
       rethrow;
     }
   }
+
+  Future<void> cadastrarUsuario(String email, String senha) async {
+    await _repository.cadastrarUsuario(email, senha);
+    var fireAuth = FirebaseAuth.instance;
+    await fireAuth.createUserWithEmailAndPassword(
+        email: email, password: senha);
+  }
 }
