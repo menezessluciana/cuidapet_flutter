@@ -1,4 +1,5 @@
 import 'package:cuidapet_curso/app/repository/shared_prefs_repository.dart';
+import 'package:cuidapet_curso/app/shared/auth_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,18 +15,11 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends ModularState<HomePage, HomeController> {
   //use 'controller' variable to access controller
-  String emailUsuario;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    SharedPrefsRepository.instance.then((value) {
-      setState(() {
-        emailUsuario = value.userData?.email;
-        print('teste $value');
-      });
-    });
   }
 
   @override
@@ -36,12 +30,12 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
       ),
       body: Column(
         children: <Widget>[
-          Text(emailUsuario ?? ''),
+          Text(Modular.get<AuthStore>().usuarioLogado.email),
           FlatButton(
-            child: Text('logout'),
-            onPressed: () async =>
-                (await SharedPreferences.getInstance()).clear(),
-          )
+              child: Text('logout'),
+              onPressed: () async {
+                await (await SharedPrefsRepository.instance).logout();
+              })
         ],
       ),
     );

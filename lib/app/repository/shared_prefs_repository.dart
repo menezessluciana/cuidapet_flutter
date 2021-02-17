@@ -1,7 +1,10 @@
 // Classe singleton - COM APENAS 1 INSTANCIA PARA O APP TODO
 import 'dart:convert';
 
+import 'package:cuidapet_curso/app/core/push_notification/push_message_configure.dart';
 import 'package:cuidapet_curso/app/models/usuario_model.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPrefsRepository {
@@ -21,7 +24,7 @@ class SharedPrefsRepository {
   }
 
   //* vai guardar o accesstoken
-  void registerAcessToken(String token) async {
+  Future<void> registerAcessToken(String token) async {
     await prefs.setString(_ACCESS_TOKEN, token);
   }
 
@@ -46,5 +49,10 @@ class SharedPrefsRepository {
       return UsuarioModel.fromJson(userMap);
     }
     return null;
+  }
+
+  Future<void> logout() async {
+    await prefs.clear();
+    await Modular.to.pushNamedAndRemoveUntil('/', ModalRoute.withName('/'));
   }
 }

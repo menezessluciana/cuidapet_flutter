@@ -1,6 +1,5 @@
 import 'package:cuidapet_curso/app/core/exceptions/cuidapet_exceptions.dart';
 import 'package:cuidapet_curso/app/models/access_token_model.dart';
-import 'package:cuidapet_curso/app/models/facebook_model.dart';
 import 'package:cuidapet_curso/app/repository/facebook_repository.dart';
 import 'package:cuidapet_curso/app/repository/security_storage_repository.dart';
 import 'package:cuidapet_curso/app/repository/shared_prefs_repository.dart';
