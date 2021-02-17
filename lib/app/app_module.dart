@@ -1,3 +1,4 @@
+import 'package:cuidapet_curso/app/core/database/connection_adm.dart';
 import 'package:cuidapet_curso/app/repository/usuario_repository.dart';
 import 'package:cuidapet_curso/app/services/usuario_service.dart';
 
@@ -14,6 +15,7 @@ import 'modules/main_page/main_page.dart';
 class AppModule extends MainModule {
   @override
   List<Bind> get binds => [
+        Bind((i) => ConnectionAdm(), lazy: false),
         Bind((i) => AppController()),
         Bind((i) => AuthStore()),
         Bind((i) => UsuarioRepository()),

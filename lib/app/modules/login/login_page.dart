@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cuidapet_curso/app/core/database/connection.dart';
 import 'package:cuidapet_curso/app/shared/components/facebook_button.dart';
 import 'package:cuidapet_curso/app/shared/theme_utils.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,18 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends ModularState<LoginPage, LoginController> {
+  @override
+  void initState() {
+    super.initState();
+    testeConnection();
+  }
+
+  void testeConnection() async {
+    var db = await Connection().instance;
+    var resultado = await db.rawQuery('select * from endereco');
+    print('RESULTADO QUERY $resultado');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
