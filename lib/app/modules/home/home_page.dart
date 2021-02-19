@@ -20,17 +20,20 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    controller.initPage();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
+      appBar: AppBar(title: Text(widget.title), actions: <Widget>[
+        IconButton(
+            icon: Icon(Icons.location_on),
+            onPressed: () => Modular.link.pushNamed('/enderecos')),
+      ]),
       body: Column(
         children: <Widget>[
-          Text(Modular.get<AuthStore>().usuarioLogado.email),
+          // Text(Modular.get<AuthStore>().usuarioLogado.email),
           FlatButton(
               child: Text('logout'),
               onPressed: () async {

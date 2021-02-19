@@ -1,5 +1,7 @@
 import 'package:cuidapet_curso/app/core/database/connection_adm.dart';
+import 'package:cuidapet_curso/app/repository/endereco_repository.dart';
 import 'package:cuidapet_curso/app/repository/usuario_repository.dart';
+import 'package:cuidapet_curso/app/services/endereco_service.dart';
 import 'package:cuidapet_curso/app/services/usuario_service.dart';
 
 import 'app_controller.dart';
@@ -18,6 +20,8 @@ class AppModule extends MainModule {
         Bind((i) => ConnectionAdm(), lazy: false),
         Bind((i) => AppController()),
         Bind((i) => AuthStore()),
+        Bind((i) => EnderecoRepository()),
+        Bind((i) => EnderecoService(i.get())),
         Bind((i) => UsuarioRepository()),
         Bind((i) => UsuarioService(i.get()))
       ];
