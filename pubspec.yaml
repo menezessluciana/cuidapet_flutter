@@ -71,7 +71,7 @@ dependencies:
   path: ^1.6.4
 
   # Auto Complete
-  # flutter_typeahead: ^1.8.1
+  flutter_typeahead: ^1.8.1
 
   # Firebase
   firebase_auth: ^0.16.1
