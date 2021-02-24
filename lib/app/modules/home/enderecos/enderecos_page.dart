@@ -2,6 +2,7 @@ import 'package:cuidapet_curso/app/shared/theme_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:google_maps_webservice/places.dart';
 import 'enderecos_controller.dart';
 
 class EnderecosPage extends StatefulWidget {
@@ -64,9 +65,16 @@ class _EnderecosPageState
                             ),
                           ),
                         ),
-                        suggestionsCallback: (String pattern) {},
-                        itemBuilder: (BuildContext context, itemData) {
-                          return Container();
+                        suggestionsCallback: (String pattern) async {
+                          //* Pattern, o que está sendo digitado
+                          return await controller.buscarEnderecos(pattern);
+                        },
+                        itemBuilder:
+                            (BuildContext context, Prediction itemData) {
+                          return ListTile(
+                            leading: Icon(Icons.location_on),
+                            title: Text(itemData.description),
+                          );
                         },
                         onSuggestionSelected: (suggestion) {}),
                   ),

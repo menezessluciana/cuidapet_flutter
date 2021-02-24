@@ -6,7 +6,7 @@ import 'enderecos_page.dart';
 class EnderecosModule extends ChildModule {
   @override
   List<Bind> get binds => [
-        Bind((i) => EnderecosController()),
+        Bind((i) => EnderecosController(i.get())),
       ];
 
   @override
