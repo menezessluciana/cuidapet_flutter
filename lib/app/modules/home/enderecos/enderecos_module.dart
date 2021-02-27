@@ -1,3 +1,5 @@
+import 'detalhe/detalhe_controller.dart';
+import 'detalhe/detalhe_page.dart';
 import 'enderecos_controller.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
@@ -6,6 +8,7 @@ import 'enderecos_page.dart';
 class EnderecosModule extends ChildModule {
   @override
   List<Bind> get binds => [
+        Bind((i) => DetalheController()),
         Bind((i) => EnderecosController(i.get())),
       ];
 
@@ -13,6 +16,7 @@ class EnderecosModule extends ChildModule {
   List<ModularRouter> get routers => [
         ModularRouter(Modular.initialRoute,
             child: (_, args) => EnderecosPage()),
+        ModularRouter('/detalhe', child: (_, args) => DetalhePage())
       ];
 
   static Inject get to => Inject<EnderecosModule>.of();

@@ -9,6 +9,8 @@
         android:name=".Application"
         android:label="cuidapet_curso"
         android:icon="@mipmap/ic_launcher">
+        <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyBZjzVdThCDQEN4Q1rWI1MicZMAEpQtJRI"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

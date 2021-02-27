@@ -81,6 +81,7 @@ class _EnderecosPageState
                 ),
                 SizedBox(height: 20),
                 ListTile(
+                  onTap: () => Modular.link.pushNamed('/detalhe'),
                   leading: CircleAvatar(
                     child: Icon(Icons.near_me, color: Colors.white),
                     radius: 30,
