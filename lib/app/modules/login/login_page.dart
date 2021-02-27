@@ -17,53 +17,49 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
   @override
   void initState() {
     super.initState();
-    testeConnection();
-  }
-
-  void testeConnection() async {
-    var db = await Connection().instance;
-    var resultado = await db.rawQuery('select * from endereco');
-    print('RESULTADO QUERY $resultado');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ThemeUtils.primaryColor,
-      body: Container(
-        width: ScreenUtil.screenWidthDp,
-        height: ScreenUtil.screenHeightDp,
-        child: Stack(
-          children: [
-            Container(
-              width: ScreenUtil.screenWidthDp,
-              height: ScreenUtil.screenHeightDp < 700
-                  ? 800
-                  : ScreenUtil.screenHeightDp * .95,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage('lib/assets/images/login_background.png'),
-                    fit: BoxFit.fill),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(
-                  top: Platform.isIOS
-                      ? ScreenUtil.statusBarHeight + 30
-                      : ScreenUtil.statusBarHeight),
-              //* Double infinity pode ser usado pois o pai está limitando o tamanho da largura
-              width: double.infinity,
-              child: Column(
-                children: [
-                  Image.asset('lib/assets/images/logo.png',
-                      //*SETWIDTH A LARGURA FICA PROPORCIONAL COM O TAMANHO DO DEVICE
-                      width: ScreenUtil().setWidth(400),
+      body: SingleChildScrollView(
+        child: Container(
+          width: ScreenUtil.screenWidthDp,
+          height: ScreenUtil.screenHeightDp,
+          child: Stack(
+            children: [
+              Container(
+                width: ScreenUtil.screenWidthDp,
+                height: ScreenUtil.screenHeightDp < 700
+                    ? 800
+                    : ScreenUtil.screenHeightDp * .95,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image:
+                          AssetImage('lib/assets/images/login_background.png'),
                       fit: BoxFit.fill),
-                  _buildForm()
-                ],
+                ),
               ),
-            ),
-          ],
+              Container(
+                margin: EdgeInsets.only(
+                    top: Platform.isIOS
+                        ? ScreenUtil.statusBarHeight + 30
+                        : ScreenUtil.statusBarHeight),
+                //* Double infinity pode ser usado pois o pai está limitando o tamanho da largura
+                width: double.infinity,
+                child: Column(
+                  children: [
+                    Image.asset('lib/assets/images/logo.png',
+                        //*SETWIDTH A LARGURA FICA PROPORCIONAL COM O TAMANHO DO DEVICE
+                        width: ScreenUtil().setWidth(400),
+                        fit: BoxFit.fill),
+                    _buildForm()
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
