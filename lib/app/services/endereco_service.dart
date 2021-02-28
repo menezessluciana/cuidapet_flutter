@@ -1,3 +1,4 @@
+import 'package:cuidapet_curso/app/models/endereco_model.dart';
 import 'package:cuidapet_curso/app/repository/endereco_repository.dart';
 import 'package:google_maps_webservice/places.dart';
 
@@ -14,5 +15,13 @@ class EnderecoService {
 
   Future<List<Prediction>> buscarEnderecoGooglePlaces(String endereco) async {
     return await _repository.buscarEnderecoGooglePlaces(endereco);
+  }
+
+  Future<void> salvarEndereco(EnderecoModel endereco) async {
+    await _repository.salvarEndereco(endereco);
+  }
+
+  Future<List<EnderecoModel>> buscarEnderecosCadastrados() async {
+    return await _repository.buscarEnderecos();
   }
 }

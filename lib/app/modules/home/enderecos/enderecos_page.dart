@@ -1,3 +1,4 @@
+import 'package:cuidapet_curso/app/models/endereco_model.dart';
 import 'package:cuidapet_curso/app/shared/theme_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -16,6 +17,12 @@ class EnderecosPage extends StatefulWidget {
 class _EnderecosPageState
     extends ModularState<EnderecosPage, EnderecosController> {
   //use 'controller' variable to access controller
+
+  @override
+  void initState() {
+    super.initState();
+    controller.buscarEnderecosCadastrados();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +88,7 @@ class _EnderecosPageState
                 ),
                 SizedBox(height: 20),
                 ListTile(
-                  onTap: () => Modular.link.pushNamed('/detalhe'),
+                  onTap: () => controller.minhaLocalizacao(),
                   leading: CircleAvatar(
                     child: Icon(Icons.near_me, color: Colors.white),
                     radius: 30,
@@ -91,12 +98,39 @@ class _EnderecosPageState
                   trailing: Icon(Icons.arrow_forward_ios),
                 ),
                 SizedBox(height: 10),
-                ListView.builder(
-                  //*skrinkwrap = true pois está dentro de uma column
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) => _buildItemEndereco(),
-                  itemCount: 3,
-                ),
+                FutureBuilder<List<EnderecoModel>>(
+                    future: controller.enderecosFuture,
+                    builder: (context, snapshot) {
+                      switch (snapshot.connectionState) {
+                        case ConnectionState.none:
+                          return Container();
+                          break;
+                        case ConnectionState.waiting:
+                          return Center(child: CircularProgressIndicator());
+                          break;
+                        case ConnectionState.active:
+                          break;
+                        case ConnectionState.done:
+                          if (snapshot.hasData) {
+                            var data = snapshot.data;
+                            return ListView.builder(
+                              //*skrinkwrap = true pois está dentro de uma column
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) =>
+                                  _buildItemEndereco(data[index]),
+                              itemCount: data.length,
+                            );
+                          } else {
+                            return Center(
+                              child: Text('Nenhum endereço cadastrado'),
+                            );
+                          }
+                          break;
+                        default:
+                          return Container();
+                      }
+                    }),
               ],
             ),
           ),
@@ -105,7 +139,7 @@ class _EnderecosPageState
     );
   }
 
-  Widget _buildItemEndereco() {
+  Widget _buildItemEndereco(EnderecoModel model) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
       child: ListTile(
@@ -114,8 +148,8 @@ class _EnderecosPageState
           child: Icon(Icons.location_on, color: Colors.black),
           backgroundColor: Colors.white,
         ),
-        title: Text('Av Paulista, 100'),
-        subtitle: Text('Sala 21'),
+        title: Text(model.endereco),
+        subtitle: Text(model.complemento),
       ),
     );
   }
