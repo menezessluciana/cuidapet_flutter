@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class EnderecoModel {
   int id;
   String endereco;
@@ -26,4 +28,19 @@ class EnderecoModel {
       complemento = map['complemento'] as String;
     }
   }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'endereco': endereco,
+      'latitude': latitude,
+      'longitude': longitude,
+      'complemento': complemento,
+    };
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory EnderecoModel.fromJson(String source) =>
+      EnderecoModel.fromMap(json.decode(source));
 }

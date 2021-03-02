@@ -1,11 +1,11 @@
 import 'package:cuidapet_curso/app/models/endereco_model.dart';
-import 'package:cuidapet_curso/app/repository/endereco_repository.dart';
+import 'package:cuidapet_curso/app/repository/enderecos_repository.dart';
 import 'package:google_maps_webservice/places.dart';
 
 class EnderecoService {
   //*PROXY PARA O REPOSITÓRIO
 
-  final EnderecoRepository _repository;
+  final EnderecosRepository _repository;
 
   EnderecoService(this._repository);
 
@@ -23,5 +23,10 @@ class EnderecoService {
 
   Future<List<EnderecoModel>> buscarEnderecosCadastrados() async {
     return await _repository.buscarEnderecos();
+  }
+
+  Future<PlacesDetailsResponse> buscarDetalheEnderecoGooglePlaces(
+      String placeId) {
+    return _repository.recuperarDetalhesEnderecoGooglePlaces(placeId);
   }
 }

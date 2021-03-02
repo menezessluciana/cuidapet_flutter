@@ -3,7 +3,7 @@ import 'package:cuidapet_curso/app/models/endereco_model.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_maps_webservice/places.dart';
 
-class EnderecoRepository {
+class EnderecosRepository {
   Future<List<EnderecoModel>> buscarEnderecos() async {
     final conn = await Connection().instance;
     var result = await conn.rawQuery('select * from endereco');
@@ -29,12 +29,14 @@ class EnderecoRepository {
   }
 
   Future<List<Prediction>> buscarEnderecoGooglePlaces(String endereco) async {
-    print('string endereco $endereco');
-    var apiKey = DotEnv().env['googleApiKey'];
-    print('api key $apiKey');
     final places = GoogleMapsPlaces(apiKey: DotEnv().env['googleApiKey']);
     var response = await places.autocomplete(endereco);
-    print('response ${response.predictions}');
     return response.predictions;
+  }
+
+  Future<PlacesDetailsResponse> recuperarDetalhesEnderecoGooglePlaces(
+      String placeId) {
+    final places = GoogleMapsPlaces(apiKey: DotEnv().env['googleApiKey']);
+    return places.getDetailsByPlaceId(placeId);
   }
 }

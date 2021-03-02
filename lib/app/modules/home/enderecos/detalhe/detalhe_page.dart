@@ -74,9 +74,13 @@ class _DetalhePageState extends ModularState<DetalhePage, DetalheController> {
                 initialValue: model.endereco,
                 readOnly: true,
                 decoration: InputDecoration(
-                    labelText: 'Endereço',
-                    suffixIcon:
-                        IconButton(icon: Icon(Icons.edit), onPressed: () {})),
+                  labelText: 'Endereço',
+                  suffixIcon: IconButton(
+                    icon: Icon(Icons.edit),
+                    //*Passando o endereço para a tela anterior
+                    onPressed: () => Modular.to.pop(model),
+                  ),
+                ),
               ),
               SizedBox(height: 20),
               TextFormField(
