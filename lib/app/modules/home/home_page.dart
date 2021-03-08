@@ -1,5 +1,8 @@
+import 'package:cuidapet_curso/app/models/categoria_model.dart';
+import 'package:cuidapet_curso/app/modules/home/components/home_appbar.dart';
 import 'package:cuidapet_curso/app/shared/theme_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'home_controller.dart';
@@ -12,70 +15,17 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends ModularState<HomePage, HomeController> {
-  var appBar = PreferredSize(
-    preferredSize: Size(double.infinity, 100),
-    child: AppBar(
-      backgroundColor: Colors.grey[100],
-      title: Padding(
-        padding: const EdgeInsets.only(bottom: 12.0),
-        child: Text('Cuidapet', style: TextStyle(color: Colors.white)),
-      ),
-      actions: <Widget>[
-        IconButton(
-          icon: Icon(Icons.location_on),
-          onPressed: () => Modular.link.pushNamed('/enderecos'),
-        )
-      ],
-      elevation: 0,
-      flexibleSpace: Stack(
-        children: <Widget>[
-          Container(
-            height: 110,
-            width: double.infinity,
-            color: ThemeUtils.primaryColor,
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              width: ScreenUtil.screenWidthDp * .9,
-              child: Material(
-                elevation: 4,
-                borderRadius: BorderRadius.circular(30),
-                child: TextFormField(
-                  decoration: InputDecoration(
-                    fillColor: Colors.white,
-                    filled: true,
-                    suffixIcon: Padding(
-                      padding: const EdgeInsets.only(right: 20.0),
-                      child: Icon(Icons.search, size: 30),
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
-                      borderSide: BorderSide(
-                        color: Colors.grey[200],
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
-                      borderSide: BorderSide(
-                        color: Colors.grey[200],
-                      ),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
-                      borderSide: BorderSide(
-                        color: Colors.grey[200],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          )
-        ],
-      ),
-    ),
-  );
+  var appBar;
+
+  Map<String, IconData> categoriasIcons = {
+    'P': Icons.pets,
+    'V': Icons.local_hospital,
+    'C': Icons.store_mall_directory
+  };
+
+  _HomePageState() {
+    appBar = HomeAppBar(controller);
+  }
 
   @override
   void initState() {
@@ -114,41 +64,75 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
       child: Column(
         children: [
           Text('Estabelecimentos próximos de '),
-          Text(
-            'Av Paulista, 100',
-            style: TextStyle(fontWeight: FontWeight.bold),
-            textAlign: TextAlign.center,
-          )
+          Observer(builder: (_) {
+            return Text(
+              controller.enderecoSelecionado?.endereco ?? '',
+              style: TextStyle(fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            );
+          })
         ],
       ),
     );
   }
 
   Widget _buildCategorias() {
-    return Container(
-      height: 130,
-      child: ListView.builder(
-        itemCount: 3,
-        scrollDirection: Axis.horizontal,
-        shrinkWrap: true,
-        itemBuilder: (context, index) {
-          return Container(
-            margin: EdgeInsets.all(20.0),
-            child: Column(
-              children: [
-                CircleAvatar(
-                  radius: 30,
-                  backgroundColor: ThemeUtils.primaryColorLight,
-                  child: Icon(Icons.pets, size: 30, color: Colors.black),
-                ),
-                SizedBox(height: 10),
-                Text('xxxx'),
-              ],
-            ),
-          );
-        },
-      ),
-    );
+    return FutureBuilder<List<CategoriaModel>>(
+        future: controller.categoriasFuture,
+        builder: (context, snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.none:
+              return Container();
+              break;
+            case ConnectionState.active:
+            case ConnectionState.waiting:
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+              break;
+            case ConnectionState.done:
+              if (snapshot.hasError) {
+                return Center(
+                  child: Text('Erro ao buscar categorias'),
+                );
+              }
+              if (snapshot.hasData) {
+                var cats = snapshot.data;
+                return Container(
+                  height: 130,
+                  child: ListView.builder(
+                    itemCount: cats.length,
+                    scrollDirection: Axis.horizontal,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      var cat = cats[index];
+                      return Container(
+                        margin: EdgeInsets.all(20.0),
+                        child: Column(
+                          children: [
+                            CircleAvatar(
+                              radius: 30,
+                              backgroundColor: ThemeUtils.primaryColorLight,
+                              child: Icon(categoriasIcons[cat.tipo],
+                                  size: 30, color: Colors.black),
+                            ),
+                            SizedBox(height: 10),
+                            Text(cat.nome),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                );
+              } else {
+                return Container();
+              }
+
+              break;
+            default:
+              return Container();
+          }
+        });
   }
 
   Widget _buildEstabelecimentos() {
