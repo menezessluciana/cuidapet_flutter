@@ -12,7 +12,7 @@ class HomeModule extends ChildModule {
   List<Bind> get binds => [
         Bind((i) => CategoriasRepository()),
         Bind((i) => CategoriasService(i.get())),
-        Bind((i) => HomeController(i.get(), i.get())),
+        Bind((i) => HomeController(i.get(), i.get(), i.get())),
       ];
 
   @override

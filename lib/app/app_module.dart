@@ -1,7 +1,9 @@
 import 'package:cuidapet_curso/app/core/database/connection_adm.dart';
 import 'package:cuidapet_curso/app/repository/enderecos_repository.dart';
+import 'package:cuidapet_curso/app/repository/fornecedor_repository.dart';
 import 'package:cuidapet_curso/app/repository/usuario_repository.dart';
 import 'package:cuidapet_curso/app/services/endereco_service.dart';
+import 'package:cuidapet_curso/app/services/fornecedor_service.dart';
 import 'package:cuidapet_curso/app/services/usuario_service.dart';
 
 import 'app_controller.dart';
@@ -23,7 +25,9 @@ class AppModule extends MainModule {
         Bind((i) => EnderecosRepository()),
         Bind((i) => EnderecoService(i.get())),
         Bind((i) => UsuarioRepository()),
-        Bind((i) => UsuarioService(i.get()))
+        Bind((i) => UsuarioService(i.get())),
+        Bind((i) => FornecedorRepository()),
+        Bind((i) => FornecedorService(i.get()))
       ];
 
   @override
