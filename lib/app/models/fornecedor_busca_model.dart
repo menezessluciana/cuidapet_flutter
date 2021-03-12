@@ -10,7 +10,7 @@ class FornecedorBuscaModel {
   String nome;
   String logo;
   double distancia;
-  CategoriaModel categoriaModel;
+  CategoriaModel categoria;
 
   FornecedorBuscaModel();
 

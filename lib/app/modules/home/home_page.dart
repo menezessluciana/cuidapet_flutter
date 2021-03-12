@@ -45,18 +45,22 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
       backgroundColor: Colors.grey[100],
       drawer: Drawer(),
       appBar: appBar,
-      body: SingleChildScrollView(
-        child: Container(
-          width: ScreenUtil.screenWidthDp,
-          //*para ajustar o scroll da tela e não dar scroll na appbar
-          height: ScreenUtil.screenHeightDp -
-              (appBar.preferredSize.height + ScreenUtil.statusBarHeight),
-          child: Column(
-            children: <Widget>[
-              _buildEndereco(),
-              _buildCategorias(),
-              Expanded(child: _buildEstabelecimentos()),
-            ],
+      body: RefreshIndicator(
+        onRefresh: () => controller.buscarEstabelecimentos(),
+        child: SingleChildScrollView(
+          physics: AlwaysScrollableScrollPhysics(),
+          child: Container(
+            width: ScreenUtil.screenWidthDp,
+            //*para ajustar o scroll da tela e não dar scroll na appbar
+            height: ScreenUtil.screenHeightDp -
+                (appBar.preferredSize.height + ScreenUtil.statusBarHeight),
+            child: Column(
+              children: <Widget>[
+                _buildEndereco(),
+                _buildCategorias(),
+                Expanded(child: _buildEstabelecimentos()),
+              ],
+            ),
           ),
         ),
       ),
@@ -104,6 +108,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                 }
                 if (snapshot.hasData) {
                   var cats = snapshot.data;
+
                   return Container(
                     height: 130,
                     child: ListView.builder(
@@ -112,19 +117,28 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
                         var cat = cats[index];
-                        return Container(
-                          margin: EdgeInsets.all(20.0),
-                          child: Column(
-                            children: [
-                              CircleAvatar(
-                                radius: 30,
-                                backgroundColor: ThemeUtils.primaryColorLight,
-                                child: Icon(categoriasIcons[cat.tipo],
-                                    size: 30, color: Colors.black),
-                              ),
-                              SizedBox(height: 10),
-                              Text(cat.nome),
-                            ],
+                        return InkWell(
+                          onTap: () => controller.filtrarPorCategoria(cat.id),
+                          child: Container(
+                            margin: EdgeInsets.all(20.0),
+                            child: Column(
+                              children: [
+                                Observer(builder: (_) {
+                                  return CircleAvatar(
+                                    radius: 30,
+                                    backgroundColor:
+                                        controller.categoriaSelecionada ==
+                                                cat.id
+                                            ? ThemeUtils.primaryColor
+                                            : ThemeUtils.primaryColorLight,
+                                    child: Icon(categoriasIcons[cat.tipo],
+                                        size: 30, color: Colors.black),
+                                  );
+                                }),
+                                SizedBox(height: 10),
+                                Text(cat.nome),
+                              ],
+                            ),
                           ),
                         );
                       },
@@ -231,7 +245,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                     separatorBuilder: (_, index) =>
                         Divider(color: Colors.transparent),
                     itemCount: fornecs.length,
-                    // physics: NeverScrollableScrollPhysics(),
+                    physics: NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
                       return EstabelecimentoItemLista(fornecs[index]);
                     },
@@ -273,7 +287,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                   var fornecs = snapshot.data;
                   return GridView.builder(
                     itemCount: fornecs.length,
-                    // physics: NeverScrollableScrollPhysics(),
+                    physics: NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
                       return EstabelecimentoItemGrid(fornecs[index]);
                     },

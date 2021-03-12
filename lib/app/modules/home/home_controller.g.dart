@@ -75,6 +75,23 @@ mixin _$HomeController on _HomeControllerBase, Store {
     });
   }
 
+  final _$categoriaSelecionadaAtom =
+      Atom(name: '_HomeControllerBase.categoriaSelecionada');
+
+  @override
+  int get categoriaSelecionada {
+    _$categoriaSelecionadaAtom.reportRead();
+    return super.categoriaSelecionada;
+  }
+
+  @override
+  set categoriaSelecionada(int value) {
+    _$categoriaSelecionadaAtom.reportWrite(value, super.categoriaSelecionada,
+        () {
+      super.categoriaSelecionada = value;
+    });
+  }
+
   final _$initPageAsyncAction = AsyncAction('_HomeControllerBase.initPage');
 
   @override
@@ -98,6 +115,15 @@ mixin _$HomeController on _HomeControllerBase, Store {
   Future<void> temEnderecoCadastrado() {
     return _$temEnderecoCadastradoAsyncAction
         .run(() => super.temEnderecoCadastrado());
+  }
+
+  final _$buscarEstabelecimentosAsyncAction =
+      AsyncAction('_HomeControllerBase.buscarEstabelecimentos');
+
+  @override
+  Future<void> buscarEstabelecimentos() {
+    return _$buscarEstabelecimentosAsyncAction
+        .run(() => super.buscarEstabelecimentos());
   }
 
   final _$_HomeControllerBaseActionController =
@@ -126,12 +152,46 @@ mixin _$HomeController on _HomeControllerBase, Store {
   }
 
   @override
+  void filtrarPorCategoria(int id) {
+    final _$actionInfo = _$_HomeControllerBaseActionController.startAction(
+        name: '_HomeControllerBase.filtrarPorCategoria');
+    try {
+      return super.filtrarPorCategoria(id);
+    } finally {
+      _$_HomeControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void filtrarEstabelecimentoPorNome() {
+    final _$actionInfo = _$_HomeControllerBaseActionController.startAction(
+        name: '_HomeControllerBase.filtrarEstabelecimentoPorNome');
+    try {
+      return super.filtrarEstabelecimentoPorNome();
+    } finally {
+      _$_HomeControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void _filtrarEstabelecimentos() {
+    final _$actionInfo = _$_HomeControllerBaseActionController.startAction(
+        name: '_HomeControllerBase._filtrarEstabelecimentos');
+    try {
+      return super._filtrarEstabelecimentos();
+    } finally {
+      _$_HomeControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 paginaSelecionada: ${paginaSelecionada},
 enderecoSelecionado: ${enderecoSelecionado},
 categoriasFuture: ${categoriasFuture},
-estabelecimentosFuture: ${estabelecimentosFuture}
+estabelecimentosFuture: ${estabelecimentosFuture},
+categoriaSelecionada: ${categoriaSelecionada}
     ''';
   }
 }

@@ -12,10 +12,9 @@ FornecedorBuscaModel _$FornecedorBuscaModelFromJson(Map<String, dynamic> json) {
     ..nome = json['nome'] as String
     ..logo = json['logo'] as String
     ..distancia = (json['distancia'] as num)?.toDouble()
-    ..categoriaModel = json['categoriaModel'] == null
+    ..categoria = json['categoria'] == null
         ? null
-        : CategoriaModel.fromJson(
-            json['categoriaModel'] as Map<String, dynamic>);
+        : CategoriaModel.fromJson(json['categoria'] as Map<String, dynamic>);
 }
 
 Map<String, dynamic> _$FornecedorBuscaModelToJson(
@@ -25,5 +24,5 @@ Map<String, dynamic> _$FornecedorBuscaModelToJson(
       'nome': instance.nome,
       'logo': instance.logo,
       'distancia': instance.distancia,
-      'categoriaModel': instance.categoriaModel,
+      'categoria': instance.categoria,
     };
