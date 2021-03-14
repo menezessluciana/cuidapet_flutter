@@ -1,4 +1,5 @@
 import 'package:cuidapet_curso/app/core/database/connection_adm.dart';
+import 'package:cuidapet_curso/app/modules/estabelecimento/estabelecimento_module.dart';
 import 'package:cuidapet_curso/app/repository/enderecos_repository.dart';
 import 'package:cuidapet_curso/app/repository/fornecedor_repository.dart';
 import 'package:cuidapet_curso/app/repository/usuario_repository.dart';
@@ -38,6 +39,7 @@ class AppModule extends MainModule {
         ),
         ModularRouter('/home', module: HomeModule()),
         ModularRouter('/login', module: LoginModule()),
+        ModularRouter('/estabelecimento', module: EstabelecimentoModule()),
       ];
 
   @override

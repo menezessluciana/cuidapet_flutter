@@ -21,7 +21,7 @@ class HomeAppBar extends PreferredSize {
                   icon: Icon(Icons.location_on),
                   onPressed: () async {
                     //*Quando o usuário sair da tela de endereço, chama o metodo para recuperar o endereço selecionado
-                    await Modular.link.pushNamed('/enderecos');
+                    await Modular.to.pushNamed('/home/enderecos');
                     await controller.recuperarEnderecoSelecionado();
                     controller.buscarEstabelecimentos();
                   })

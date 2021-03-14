@@ -59,6 +59,10 @@ abstract class _HomeControllerBase with Store {
   Future<void> recuperarEnderecoSelecionado() async {
     var prefs = await SharedPrefsRepository.instance;
     enderecoSelecionado = await prefs.enderecoSelecionado;
+    if (enderecoSelecionado == null) {
+      await Modular.to.pushNamed('/home/enderecos');
+      await recuperarEnderecoSelecionado();
+    }
   }
 
   @action
@@ -71,7 +75,8 @@ abstract class _HomeControllerBase with Store {
     var temEndereco = await _enderecoService.existeEnderecoCadastrado();
     //*Não deve ser possivel acessar a página home sem endereço
     if (!temEndereco) {
-      await Modular.link.pushNamed('/enderecos');
+      //* pode utilizar .link quando é uma rota que está dentro do modulo, aí ficaria: /enderecos
+      await Modular.to.pushNamed('/home/enderecos');
     }
   }
 
