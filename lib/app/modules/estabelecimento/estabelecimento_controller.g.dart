@@ -25,6 +25,24 @@ mixin _$EstabelecimentoController on _EstabelecimentoControllerBase, Store {
     });
   }
 
+  final _$fornecedorServicosFutureAtom =
+      Atom(name: '_EstabelecimentoControllerBase.fornecedorServicosFuture');
+
+  @override
+  ObservableFuture<List<FornecedorServicoModel>> get fornecedorServicosFuture {
+    _$fornecedorServicosFutureAtom.reportRead();
+    return super.fornecedorServicosFuture;
+  }
+
+  @override
+  set fornecedorServicosFuture(
+      ObservableFuture<List<FornecedorServicoModel>> value) {
+    _$fornecedorServicosFutureAtom
+        .reportWrite(value, super.fornecedorServicosFuture, () {
+      super.fornecedorServicosFuture = value;
+    });
+  }
+
   final _$_EstabelecimentoControllerBaseActionController =
       ActionController(name: '_EstabelecimentoControllerBase');
 
@@ -42,7 +60,8 @@ mixin _$EstabelecimentoController on _EstabelecimentoControllerBase, Store {
   @override
   String toString() {
     return '''
-fornecedorFuture: ${fornecedorFuture}
+fornecedorFuture: ${fornecedorFuture},
+fornecedorServicosFuture: ${fornecedorServicosFuture}
     ''';
   }
 }

@@ -1,6 +1,7 @@
 import 'package:cuidapet_curso/app/core/dio/custom_dio.dart';
 import 'package:cuidapet_curso/app/models/fornecedor_busca_model.dart';
 import 'package:cuidapet_curso/app/models/fornecedor_model.dart';
+import 'package:cuidapet_curso/app/models/fornecedor_servico_model.dart';
 
 class FornecedorRepository {
   Future<List<FornecedorBuscaModel>> buscarFornecedoresProximos(
@@ -17,5 +18,15 @@ class FornecedorRepository {
     return CustomDio.authInstance
         .get('/fornecedores/$id')
         .then((res) => FornecedorModel.fromJson(res.data));
+  }
+
+  Future<List<FornecedorServicoModel>> buscarServicosFornecedor(
+      int fornecedorId) {
+    return CustomDio.authInstance
+        .get('/fornecedores/servicos/$fornecedorId')
+        .then((res) => res.data
+            .map<FornecedorServicoModel>(
+                (f) => FornecedorServicoModel.fromJson(f))
+            .toList());
   }
 }
