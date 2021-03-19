@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:cuidapet_curso/app/core/database/connection.dart';
+import 'package:cuidapet_curso/app/shared/components/cuidapet_textformfield.dart';
 import 'package:cuidapet_curso/app/shared/components/facebook_button.dart';
 import 'package:cuidapet_curso/app/shared/theme_utils.dart';
 import 'package:flutter/material.dart';
@@ -72,16 +73,9 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
         key: controller.formKey,
         child: Column(
           children: [
-            TextFormField(
+            CuidapetTextFormField(
                 controller: controller.loginController,
-                decoration: InputDecoration(
-                  labelText: 'Login',
-                  labelStyle: TextStyle(fontSize: 15),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(50),
-                    gapPadding: 0,
-                  ),
-                ),
+                label: 'Login',
                 validator: (String value) {
                   if (value.isEmpty) {
                     return 'Login obrigatório';
@@ -90,21 +84,15 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
                 }),
             SizedBox(height: 20),
             Observer(builder: (_) {
-              return TextFormField(
+              return CuidapetTextFormField(
                   controller: controller.senhaController,
                   obscureText: controller.obscureText,
-                  decoration: InputDecoration(
-                      labelText: 'Senha',
-                      labelStyle: TextStyle(fontSize: 15),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(50),
-                        gapPadding: 0,
-                      ),
-                      suffixIcon: IconButton(
-                          onPressed: () => controller.mostrarSenhaUsuario(),
-                          icon: controller.obscureText
-                              ? Icon(Icons.lock)
-                              : Icon(Icons.lock_open))),
+                  label: 'Senha',
+                  suffixIcon: IconButton(
+                      onPressed: () => controller.mostrarSenhaUsuario(),
+                      icon: controller.obscureText
+                          ? Icon(Icons.lock)
+                          : Icon(Icons.lock_open)),
                   validator: (String value) {
                     if (value.isEmpty) {
                       return 'Senha obrigatória';

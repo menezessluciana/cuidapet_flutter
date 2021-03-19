@@ -43,6 +43,23 @@ mixin _$EstabelecimentoController on _EstabelecimentoControllerBase, Store {
     });
   }
 
+  final _$servicosSelecionadosAtom =
+      Atom(name: '_EstabelecimentoControllerBase.servicosSelecionados');
+
+  @override
+  ObservableList<FornecedorServicoModel> get servicosSelecionados {
+    _$servicosSelecionadosAtom.reportRead();
+    return super.servicosSelecionados;
+  }
+
+  @override
+  set servicosSelecionados(ObservableList<FornecedorServicoModel> value) {
+    _$servicosSelecionadosAtom.reportWrite(value, super.servicosSelecionados,
+        () {
+      super.servicosSelecionados = value;
+    });
+  }
+
   final _$_EstabelecimentoControllerBaseActionController =
       ActionController(name: '_EstabelecimentoControllerBase');
 
@@ -58,10 +75,23 @@ mixin _$EstabelecimentoController on _EstabelecimentoControllerBase, Store {
   }
 
   @override
+  void adicionarOuRemoverServico(FornecedorServicoModel servico) {
+    final _$actionInfo =
+        _$_EstabelecimentoControllerBaseActionController.startAction(
+            name: '_EstabelecimentoControllerBase.adicionarOuRemoverServico');
+    try {
+      return super.adicionarOuRemoverServico(servico);
+    } finally {
+      _$_EstabelecimentoControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 fornecedorFuture: ${fornecedorFuture},
-fornecedorServicosFuture: ${fornecedorServicosFuture}
+fornecedorServicosFuture: ${fornecedorServicosFuture},
+servicosSelecionados: ${servicosSelecionados}
     ''';
   }
 }

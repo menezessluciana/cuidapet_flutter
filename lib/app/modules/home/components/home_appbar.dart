@@ -1,4 +1,5 @@
 import 'package:cuidapet_curso/app/modules/home/home_controller.dart';
+import 'package:cuidapet_curso/app/repository/shared_prefs_repository.dart';
 import 'package:cuidapet_curso/app/shared/theme_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -18,13 +19,14 @@ class HomeAppBar extends PreferredSize {
             ),
             actions: <Widget>[
               IconButton(
-                  icon: Icon(Icons.location_on),
-                  onPressed: () async {
-                    //*Quando o usuário sair da tela de endereço, chama o metodo para recuperar o endereço selecionado
-                    await Modular.to.pushNamed('/home/enderecos');
-                    await controller.recuperarEnderecoSelecionado();
-                    controller.buscarEstabelecimentos();
-                  })
+                icon: Icon(Icons.location_on),
+                onPressed: () async {
+                  //*Quando o usuário sair da tela de endereço, chama o metodo para recuperar o endereço selecionado
+                  await Modular.to.pushNamed('/home/enderecos');
+                  await controller.recuperarEnderecoSelecionado();
+                  controller.buscarEstabelecimentos();
+                },
+              ),
             ],
             elevation: 0,
             flexibleSpace: Stack(
