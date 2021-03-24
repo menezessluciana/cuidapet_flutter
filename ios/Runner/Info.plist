@@ -96,5 +96,7 @@
 		<true/>
 		<key>NSLocationWhenInUseUsageDescription</key>
 		<string>Esse app precisa de localização para buscar o seu endereço.</string>
+		<key>NSCameraUsageDescription</key>
+	    <string>Esse app precisa da camera para atualizar a foto de perfil.</string>
 </dict>
 </plist>

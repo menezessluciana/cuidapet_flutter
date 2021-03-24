@@ -3,6 +3,7 @@ import 'package:cuidapet_curso/app/models/fornecedor_busca_model.dart';
 import 'package:cuidapet_curso/app/modules/home/components/estabelecimento_item_list.dart';
 import 'package:cuidapet_curso/app/modules/home/components/estabelecimento_item_grid.dart';
 import 'package:cuidapet_curso/app/modules/home/components/home_appbar.dart';
+import 'package:cuidapet_curso/app/modules/home/components/home_drawer.dart';
 import 'package:cuidapet_curso/app/shared/theme_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -43,7 +44,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[100],
-      drawer: Drawer(),
+      drawer: HomeDrawer(),
       appBar: appBar,
       body: RefreshIndicator(
         onRefresh: () => controller.buscarEstabelecimentos(),

@@ -40,8 +40,8 @@ abstract class _EnderecosControllerBase with Store {
       longitude: detalhe.geometry.location.lng,
       complemento: null,
     );
-    var enderecoEdicao = await Modular.link
-        .pushNamed('/detalhe', arguments: enderecoModel) as EnderecoModel;
+    var enderecoEdicao = await Modular.to.pushNamed('/home/enderecos/detalhe',
+        arguments: enderecoModel) as EnderecoModel;
 
     verificaEdicaoEndereco(enderecoEdicao);
   }
@@ -64,8 +64,8 @@ abstract class _EnderecosControllerBase with Store {
         complemento: null,
       );
       Loader.hide();
-      var enderecoEdicao = await Modular.link
-          .pushNamed('/detalhe', arguments: enderecoModel) as EnderecoModel;
+      var enderecoEdicao = await Modular.to.pushNamed('/home/enderecos/detalhe',
+          arguments: enderecoModel) as EnderecoModel;
 
       verificaEdicaoEndereco(enderecoEdicao);
       buscarEnderecosCadastrados();
