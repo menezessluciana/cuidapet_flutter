@@ -1,4 +1,5 @@
 import 'package:cuidapet_curso/app/core/dio/custom_dio.dart';
+import 'package:cuidapet_curso/app/models/agendamento_model.dart';
 import 'package:cuidapet_curso/app/viewsModels/agendamento_vm.dart';
 
 class AgendamentoRepository {
@@ -10,5 +11,11 @@ class AgendamentoRepository {
       'nome': agendamento.nomeReserva,
       'nome_pet': agendamento.nomePet,
     });
+  }
+
+  Future<List<AgendamentoModel>> buscarAgendamentos() {
+    return CustomDio.authInstance.get('/agendamentos').then((res) => res.data
+        .map<AgendamentoModel>((a) => AgendamentoModel.fromJson(a))
+        .toList());
   }
 }

@@ -63,6 +63,7 @@ class HomeDrawer extends Drawer {
                     shrinkWrap: true,
                     children: <Widget>[
                       ListTile(
+                        onTap: () => Modular.to.pushNamed('/meus_agendamentos'),
                         leading: Icon(Icons.receipt),
                         title: Text('Meus Agendamentos'),
                       ),
