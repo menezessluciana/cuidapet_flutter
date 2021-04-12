@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_modular/flutter_modular_test.dart';
 
-import 'package:cuidapet_curso/app/modules/chat_lista/chat_lista_page.dart';
+import 'package:cuidapet_curso/app/modules/chat_lista/chat/chat_page.dart';
 
 void main() {
   testWidgets('ChatPage has title', (tester) async {

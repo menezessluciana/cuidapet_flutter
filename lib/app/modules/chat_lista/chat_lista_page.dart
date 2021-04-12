@@ -4,18 +4,19 @@ import 'package:cuidapet_curso/app/models/chat_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'chat_controller.dart';
+import 'chat_lista_controller.dart';
 
-class ChatPage extends StatefulWidget {
-  const ChatPage({
+class ChatListaPage extends StatefulWidget {
+  const ChatListaPage({
     Key key,
   }) : super(key: key);
 
   @override
-  _ChatPageState createState() => _ChatPageState();
+  _ChatListaPageState createState() => _ChatListaPageState();
 }
 
-class _ChatPageState extends ModularState<ChatPage, ChatController> {
+class _ChatListaPageState
+    extends ModularState<ChatListaPage, ChatListaController> {
   //use 'controller' variable to access controller
   //
   @override
@@ -74,6 +75,8 @@ class _ChatPageState extends ModularState<ChatPage, ChatController> {
       itemBuilder: (_, index) {
         var chat = chats[index];
         return ListTile(
+          onTap: () =>
+              Modular.to.pushNamed('/chat_lista/chat/', arguments: chat),
           leading: CircleAvatar(
             backgroundImage: NetworkImage(chat.fornecedor.logo),
           ),

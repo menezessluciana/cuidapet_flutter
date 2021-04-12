@@ -1,11 +1,11 @@
 import 'package:flutter_modular/flutter_modular_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:cuidapet_curso/app/modules/chat_lista/chat_lista_controller.dart';
-import 'package:cuidapet_curso/app/modules/chat_lista/chat_lista_module.dart';
+import 'package:cuidapet_curso/app/modules/chat_lista/chat/chat_controller.dart';
+import 'package:cuidapet_curso/app/modules/chat_lista/chat/chat_module.dart';
 
 void main() {
-  initModule(ChatListaModule());
+  initModule(ChatModule());
   // ChatController chat;
   //
   setUp(() {

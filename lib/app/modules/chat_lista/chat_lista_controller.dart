@@ -3,10 +3,10 @@ import 'package:cuidapet_curso/app/services/chat_service.dart';
 import 'package:mobx/mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
-part 'chat_controller.g.dart';
+part 'chat_lista_controller.g.dart';
 
 @Injectable()
-class ChatController = _ChatControllerBase with _$ChatController;
+class ChatListaController = _ChatControllerBase with _$ChatListaController;
 
 abstract class _ChatControllerBase with Store {
   final ChatService _chatService;

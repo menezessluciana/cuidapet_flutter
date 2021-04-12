@@ -17,7 +17,7 @@ import 'package:flutter/material.dart';
 import 'package:cuidapet_curso/app/app_widget.dart';
 import 'package:cuidapet_curso/app/shared/auth_store.dart';
 
-import 'modules/chat/chat_module.dart';
+import 'modules/chat_lista/chat_lista_module.dart';
 import 'modules/home/home_module.dart';
 import 'modules/login/login_module.dart';
 import 'modules/main_page/main_page.dart';
@@ -49,7 +49,7 @@ class AppModule extends MainModule {
         ModularRouter('/estabelecimento', module: EstabelecimentoModule()),
         ModularRouter('/agendamento', module: AgendamentoModule()),
         ModularRouter('/meus_agendamentos', module: MeusAgendamentosModule()),
-        ModularRouter('/chat', module: ChatModule()),
+        ModularRouter('/chat_lista', module: ChatListaModule()),
       ];
 
   @override
