@@ -68,6 +68,7 @@ class HomeDrawer extends Drawer {
                         title: Text('Meus Agendamentos'),
                       ),
                       ListTile(
+                        onTap: () => Modular.to.pushNamed('/chat'),
                         leading: Icon(Icons.chat),
                         title: Text('Chats'),
                       ),
