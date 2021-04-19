@@ -30,4 +30,23 @@ class ChatRepository {
           .toList();
     });
   }
+
+  void enviarMensagemChat(ChatModel model, String mensagem) {
+    final data = <String, dynamic>{
+      'mensagem': mensagem,
+      'data_mensagem': DateTime.now(),
+      'usuario': model.usuario,
+    };
+
+    _firestore
+        .collection('chat')
+        .document(model.id.toString())
+        .collection('messages')
+        .add(data);
+  }
+
+  void notificarUsuario(ChatModel model, String mensagem) {
+    CustomDio.authInstance.post('/chats/notificar',
+        data: {'chat': model.id, 'mensagem': mensagem, 'para': 'F'});
+  }
 }

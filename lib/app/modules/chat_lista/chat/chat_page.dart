@@ -1,5 +1,7 @@
 import 'package:cuidapet_curso/app/models/chat_model.dart';
+import 'package:cuidapet_curso/app/models/chat_msg_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'chat_controller.dart';
 
@@ -19,6 +21,12 @@ class _ChatPageState extends ModularState<ChatPage, ChatController> {
   _ChatPageState(this.model);
 
   @override
+  void initState() {
+    controller.getChat(model);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -26,33 +34,38 @@ class _ChatPageState extends ModularState<ChatPage, ChatController> {
       ),
       body: Column(
         children: <Widget>[
-          //*CRIA LISTA SOB DEMANDA DA TELA
           Expanded(
-            child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: 5,
-                itemBuilder: (_, index) {
-                  if (index % 2 == 0) {
-                    return ListTile(
-                      leading: CircleAvatar(
-                        backgroundImage: NetworkImage(
-                            'https://image.freepik.com/vetores-gratis/logotipo-de-petshop-para-gatos-e-caes_9645-750.jpg'),
-                      ),
-                      title: Text('Nome fornecedor'),
-                      subtitle: Text('Olá cliente, tudo bem?'),
-                    );
-                  } else {
-                    return ListTile(
-                      trailing: CircleAvatar(
-                        backgroundImage: NetworkImage(
-                            'https://pet.talknmb.com.br/wp-content/uploads/2020/04/artigo_mercado-pet-food-scaled.jpg'),
-                      ),
-                      title: Text('Luciana Menezes', textAlign: TextAlign.end),
-                      subtitle:
-                          Text('Olá Pet, tudo bem?', textAlign: TextAlign.end),
-                    );
-                  }
-                }),
+            child: Observer(
+              builder: (_) {
+                final List<ChatMsgModel> msgs = controller.mensagens?.data;
+
+                if (msgs == null) return SizedBox.shrink();
+                //*CRIA LISTA SOB DEMANDA DA TELA
+                return ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: msgs.length,
+                    itemBuilder: (_, index) {
+                      final msg = msgs[index];
+                      if (msg.fornecedor != null) {
+                        return ListTile(
+                          leading: CircleAvatar(
+                            backgroundImage:
+                                NetworkImage(model.fornecedor.logo),
+                          ),
+                          title: Text(model.fornecedor.nome),
+                          subtitle: Text(msg.mensagem),
+                        );
+                      } else {
+                        return ListTile(
+                          trailing: CircleAvatar(),
+                          title: Text(model.nome, textAlign: TextAlign.end),
+                          subtitle:
+                              Text(msg.mensagem, textAlign: TextAlign.end),
+                        );
+                      }
+                    });
+              },
+            ),
           ),
           Container(
             margin: EdgeInsets.only(bottom: 10),
@@ -61,6 +74,7 @@ class _ChatPageState extends ModularState<ChatPage, ChatController> {
               children: <Widget>[
                 Expanded(
                   child: TextFormField(
+                    controller: controller.mensagemController,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30),
@@ -73,7 +87,7 @@ class _ChatPageState extends ModularState<ChatPage, ChatController> {
                   child: CircleAvatar(
                     minRadius: 25,
                     child: IconButton(
-                      onPressed: () {},
+                      onPressed: () => controller.enviarMensagem(),
                       icon: Icon(Icons.send),
                     ),
                   ),

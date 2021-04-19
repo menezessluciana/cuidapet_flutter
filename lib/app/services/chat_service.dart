@@ -13,4 +13,9 @@ class ChatService {
   Stream<List<ChatMsgModel>> buscarMensagens(ChatModel chat) {
     return _repository.buscarMensagens(chat);
   }
+
+  void enviarMensagem(ChatModel model, String mensagem) {
+    _repository.enviarMensagemChat(model, mensagem);
+    _repository.notificarUsuario(model, mensagem);
+  }
 }
