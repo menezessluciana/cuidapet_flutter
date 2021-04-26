@@ -17,6 +17,7 @@ class _ChatPageState extends ModularState<ChatPage, ChatController> {
   //use 'controller' variable to access controller'
   //
   final ChatModel model;
+  final ScrollController _scrollController = ScrollController();
 
   _ChatPageState(this.model);
 
@@ -40,8 +41,16 @@ class _ChatPageState extends ModularState<ChatPage, ChatController> {
                 final List<ChatMsgModel> msgs = controller.mensagens?.data;
 
                 if (msgs == null) return SizedBox.shrink();
+
+                //esperar que a tela carregue, para movimentar ela
+                Future.delayed(
+                    Duration.zero,
+                    () => _scrollController
+                        .jumpTo(_scrollController.position.maxScrollExtent));
+
                 //*CRIA LISTA SOB DEMANDA DA TELA
                 return ListView.builder(
+                    controller: _scrollController,
                     shrinkWrap: true,
                     itemCount: msgs.length,
                     itemBuilder: (_, index) {
